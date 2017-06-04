@@ -1,4 +1,4 @@
-boardsize <- 3
+
 winningSeries <- 3
 
 initBoard <- function(){
@@ -6,11 +6,12 @@ initBoard <- function(){
 }
 
 checkForVictory <- function(board){
+  boardsize <- dim(board)[1]
   checkSubMatrix <- function(board){
     secondDiagonal <- function(m){
       return(diag(apply(m, 2, rev)))
     }
-    maxSequence = max(
+    sequences = c(
       # check first row
       sum(board[1,]),
       # check first column
@@ -20,8 +21,11 @@ checkForVictory <- function(board){
       # check other diagonal
       sum(secondDiagonal(board))
     )
-    if(abs(maxSequence) == winningSeries){
-      return(maxSequence/winningSeries)
+    if(max(sequences) == winningSeries){
+      return(1)
+    }
+    else if(min(sequences) == (-winningSeries)){
+      return(-1)
     }
     else{
       return(0)
@@ -34,8 +38,9 @@ checkForVictory <- function(board){
   
   corners = expand.grid(c(1:(boardsize - winningSeries + 1)), c(1:(boardsize - winningSeries + 1)))
   res = apply(corners, 1, function(i){
-    checkSubMatrix(getSubMatrix(board, i[1], i[1]))
+    checkSubMatrix(getSubMatrix(board, i[1], i[2]))
   })
+  return(sum(res))
   
   # TODO: check the remaining right columns and the bottom rows
   
