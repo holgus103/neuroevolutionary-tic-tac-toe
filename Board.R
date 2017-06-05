@@ -64,10 +64,10 @@ checkForVictory <- function(board){
   corners = expand.grid(c(1:(boardsize - winningSeries + 1)), c(1:(boardsize - winningSeries + 1)))
   res = apply(corners, 1, evaluator)
   # TODO: evaluate right boards
-  rightcorners = expand.grid(c(1:(boardsize - winningSeries + 1)),c((boardsize - winningSeries + 1): boardsize))
+  rightcorners = expand.grid(c(1:(boardsize - winningSeries + 1)),c((boardsize - winningSeries + 2): boardsize))
   rightres = apply(rightcorners, 1, rightevaluator)
   # TODO: evaluate bottom
-  bottomcorners =   expand.grid(c((boardsize - winningSeries + 1): boardsize), c(1:(boardsize - winningSeries + 1)))
+  bottomcorners =   expand.grid(c((boardsize - winningSeries + 2): boardsize), c(1:(boardsize - winningSeries + 1)))
   bottomres = apply(bottomcorners, 1, bottomevaluator)
   return(sum(res, rightres, bottomres))
 }
