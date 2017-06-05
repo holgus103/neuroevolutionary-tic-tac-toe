@@ -59,9 +59,28 @@ advancedCheckTest <- function(){
   testForValue(checkForVictory(m), -1, "advancedCheckTest")
 }
 
+rightEvaluationTest <- function(){
+  m = matrix(c(1, 0, 1, 0, 
+               0, 1, 0, 0,
+               0, 0, 0, 0,
+               0,-1,-1,-1), nrow = 4, ncol = 4)
+  testForValue(checkForVictory(m), -1, "rightEvaluationTest")
+}
+
+bottomEvaluationTest <- function(){
+  m = matrix(c(1, 0, 1, 0, 
+               0, 1, 0,-1,
+               0, 0, 0,-1,
+               0, 0, 0,-1), nrow = 4, ncol = 4)
+  testForValue(checkForVictory(m), -1, "bottomEvaluationTest")
+}
+
 basicColumnDetectionTest()
 basicRowDetectionTest()
 basicDiagonalDetectionTest()
 basicSecondDiagonalDetectionTest()
 nothignInterestingTest()
 oppositeWinnerTest()
+advancedCheckTest()
+rightEvaluationTest()
+bottomEvaluationTest()
