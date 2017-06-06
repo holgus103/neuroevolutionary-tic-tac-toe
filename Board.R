@@ -1,5 +1,6 @@
 
 winningSeries <- 3
+boardSize <- 3
 
 initBoard <- function(){
   return(matrix(0, ncol = boardsize, nrow = boardsize))
