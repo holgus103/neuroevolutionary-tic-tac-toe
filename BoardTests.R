@@ -1,3 +1,7 @@
+algorithmIterations <- 100
+testGamesCount <- 1000
+hiddenNeuronsCount <- 15
+
 testForValue <- function(actual, expected, testname){
   res = "failed"
   if(actual == expected){

@@ -1,4 +1,3 @@
-hiddenNeurons <- 10
 games <- 100
 epochs <- 500
 
@@ -49,6 +48,41 @@ makeMove <- function(board, network, sideOnTheMove){
   bestField <- chooseBestMove(board, network, sideOnTheMove)
   board[[bestField]] = sideOnTheMove
   return(board)
+}
+
+startAlgorithm <- function(){
+  populationA <- getPopulation()
+  populationB <- getPopulation()
+  for(i in 1:hiddenNeuronsCount){
+    victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
+    victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
+    populationA <- evolveNextGeneration(populationA, victoriesCountA)
+    populationB <- evolveNextGeneration(populationB, victoriesCountB)
+  }
+  victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
+  victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
+  winnerA <- which.max(victoriesCountA)
+  winnerB <- which.max(victoriesCountB)
+  competitionWinner <- winnerA
+  if(victoriesCountB[winnerB] > victoriesCountA[winnerA]){
+    competitionWinner <- winnerB
+  }
+  competitionWinner <- competitionWinner[[1]]
+  
+  gameWithRandom <- sapply(1:testGamesCount, function(x){game_AIvsRandom(competitionWinner)})
+  print("Testing evolved algorithm against a random player")
+  return(gameWithRandom)
+  
+}
+
+GenerateResultsTable <- function(results){
+  winsCount = length(results[results=="1"])
+  drawsCount = length(results[results=="0"])
+  losesCount = length(results[results=="-1"])
+  totalGamesCount <- winsCount + losesCount + drawsCount
+  result <- as.matrix(c(winsCount, drawsCount, losesCount, totalGamesCount))
+  rownames(result) <- c("Wins", "Draws", "Loses", "Total")
+  return(t(result))
 }
 
 
