@@ -13,17 +13,16 @@ competitionBetweenPopulations <- function(populationA, populationB)
   startGame <- function(selectedIndividual, opponents){
     sum(sapply(opponents, function(x)game_AIvsAI_revange(selectedIndividual, x)))
   }
-  
-  results <- sapply(populationA, function(i) startGame(i, sample(populationB, gamesForIndividual)))
-  minResult <- min(results)
-  sapply(results, function(x)(x - minResult))
+  return(sapply(populationA, function(i) startGame(i, sample(populationB, gamesForIndividual))))
 }
 
 evolveNextGeneration <-function(population, victoriesCount){
   newGeneration <- list()
   newGeneration[[1]] <- population[[which.max(victoriesCount)]]
   
-  probability <- sapply(victoriesCount, FUN = countProbability, sum(victoriesCount))
+  probability <- sapply(victoriesCount, function(x, s) {
+    (x+1)/(s+populationSize)
+  }, sum(victoriesCount))
   for(i in 2:populationSize){
     drawn <- sample(population, 2, FALSE, probability)
     if(crossoverVersion == 1){
@@ -37,15 +36,14 @@ evolveNextGeneration <-function(population, victoriesCount){
 }
 
 countPropability <- function(x, sumOfElements){
-  (x+1)/(sumOfElements + populationSize)
+  (x)/(sumOfElements)
 }
-
+s
 
 crossover <- function(networkA, networkB){
-  boardSize<-board.size
   test<-networkA
   bool <- c(TRUE, FALSE)
-  test[1,] <- sample(bool, hiddenNeuronsCount, TRUE)
+  test[1,] <- sample(bool, hiddenNeurons, TRUE)
   test[1:(2*boardSize*boardSize),] <- apply(test[1:(2*boardSize*boardSize),], 2, function(col){ sapply(col, function(y)col[1]) })
   test[(2*boardSize*boardSize + 1):(3*boardSize*boardSize),1] <- sample(bool, boardSize*boardSize, TRUE)
   test[(2*boardSize*boardSize + 1):(3*boardSize*boardSize),] <- t(apply(test[(2*boardSize*boardSize + 1):(3*boardSize*boardSize),], 1, function(row){ sapply(row, function(y)row[1]) }))
@@ -58,7 +56,7 @@ crossover <- function(networkA, networkB){
 crossover2 <- function(networkA, networkB){
   test<-networkA
   bool <- c(TRUE, FALSE)
-  test[1,] <- sample(bool, hiddenNeuronsCount, TRUE)
+  test[1,] <- sample(bool, hiddenNeurons, TRUE)
   test <- apply(test, 2, function(col){ sapply(col, function(y)col[1]) })
   crossoverResult <- ifelse(test, networkA, networkB)
   NormalizeConnections(crossoverResult)

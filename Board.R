@@ -3,7 +3,7 @@ winningSeries <- 3
 boardSize <- 3
 
 initBoard <- function(){
-  return(matrix(0, ncol = boardsize, nrow = boardsize))
+  return(matrix(0, ncol = boardSize, nrow = boardSize))
 }
 
 checkForVictory <- function(board){
@@ -64,10 +64,8 @@ checkForVictory <- function(board){
   # evalute inner boards
   corners = expand.grid(c(1:(boardsize - winningSeries + 1)), c(1:(boardsize - winningSeries + 1)))
   res = apply(corners, 1, evaluator)
-  # TODO: evaluate right boards
   rightcorners = expand.grid(c(1:(boardsize - winningSeries + 1)),c((boardsize - winningSeries + 2): boardsize))
   rightres = apply(rightcorners, 1, rightevaluator)
-  # TODO: evaluate bottom
   bottomcorners =   expand.grid(c((boardsize - winningSeries + 2): boardsize), c(1:(boardsize - winningSeries + 1)))
   bottomres = apply(bottomcorners, 1, bottomevaluator)
   return(sum(res, rightres, bottomres))

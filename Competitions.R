@@ -1,5 +1,5 @@
 isAnyFieldEmpty <- function(board){
-  return(length(which(board)))
+  return(length(which(board == 0)))
 }
 
 randomizeSide <- function(){
@@ -9,11 +9,10 @@ randomizeSide <- function(){
 
 #In any competition if firstSide wins the result is 1, if the second one - the result is 2
 game_AIvsRandom <- function(network){
-  aiPlayer <- randomizeSide
-  sideOnTheMove <- randomizeSide
+  aiPlayer <- randomizeSide()
+  sideOnTheMove <- randomizeSide()
   board <- initBoard()
   gameResult <- 0
-  
   while(gameResult == 0 && isAnyFieldEmpty(board)){
     if(sideOnTheMove == aiPlayer){
       board <- makeMove(board, network, sideOnTheMove)
@@ -51,8 +50,7 @@ game_AIvsAI <- function(population1, population2){
   }
   
   if(gameResult == population1Side) return(1)
-  if(gameResult == 0) return(0)
-  else return(2)
+  else return(0)
 }
 
 game_AIvsAI_revange <- function(population1, population2){
@@ -90,8 +88,7 @@ game_AIvsAI_revange <- function(population1, population2){
   }
   
   if(gameResult + revangeResult > 0) return(1)
-  if(gameResult + revangeResult == 0) return(0)
-  else return(2)
+  else return(0)
 }
 
 

@@ -1,5 +1,6 @@
 games <- 100
-epochs <- 500
+epochs <- 5
+hiddenNeurons <- 10
 
 generateIndividual <- function(){
   weightsCount <- 3 * boardSize * boardSize * hiddenNeurons
@@ -10,7 +11,7 @@ generateIndividual <- function(){
 
 makeSumsEqual1 <- function(network, boardSize){
   network[1:(boardSize * boardSize * 2),] <-
-    apply(i[1:(boardSize * boardSize * 2),], 2, function(c){
+    apply(network[1:(boardSize * boardSize * 2),], 2, function(c){
       s = sum(c)
       sapply(c, function(e){
         return(e/s)
@@ -18,21 +19,28 @@ makeSumsEqual1 <- function(network, boardSize){
     })
   
   network[(boardSize * boardSize * 2 + 1):(boardSize * boardSize * 3),] <-
-    apply(network[(boardSize * boardSize * 2 + 1) : (boardSize * boardSize * 3),], 1, function(r){
+    t(apply(network[(boardSize * boardSize * 2 + 1) : (boardSize * boardSize * 3),], 1, function(r){
       s <- sum(r)
       sapply(r, function(e){
         return(e/s)
       })
     })
+  )
   return(network)
 }
 
 calculate <- function(board, network){
-  size <- dim(board)[1]
-  input = apply(as.vector(board))
+  size <- boardSize
+  boardVector = as.array(board)
+  input = c(sapply(boardVector, function(s){
+      length(which(s == 1))
+    }), 
+    sapply(boardVector, function(s){
+      length(which(s == -1))
+    })
+  )
   hLayerInput = input %*% network[1:(2 * size * size),]
-  output <- hLayerInput %*% t(network[(2 * size * size + 1):(3 * size * size),1])
-  return(output)
+  return(network[(2 * size * size + 1):(3 * size * size),1] * t(hLayerInput))
 }
 
 chooseBestMove <-function(board, network, sideOnTheMove){
@@ -53,23 +61,26 @@ makeMove <- function(board, network, sideOnTheMove){
 startAlgorithm <- function(){
   populationA <- getPopulation()
   populationB <- getPopulation()
-  for(i in 1:hiddenNeuronsCount){
+  for(i in 1:epochs){
     victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
     victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
     populationA <- evolveNextGeneration(populationA, victoriesCountA)
     populationB <- evolveNextGeneration(populationB, victoriesCountB)
+    print(paste("Iteration", i, "completed"))
   }
+  print("Finished")
   victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
   victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
   winnerA <- which.max(victoriesCountA)
   winnerB <- which.max(victoriesCountB)
-  competitionWinner <- winnerA
+  print(winnerA)
+  competitionWinner <- populationA[winnerA]
   if(victoriesCountB[winnerB] > victoriesCountA[winnerA]){
-    competitionWinner <- winnerB
+    competitionWinner <- populationB[winnerB]
   }
   competitionWinner <- competitionWinner[[1]]
-  
-  gameWithRandom <- sapply(1:testGamesCount, function(x){game_AIvsRandom(competitionWinner)})
+  print(competitionWinner)
+  gameWithRandom <- sapply(1:games, function(x){game_AIvsRandom(competitionWinner)})
   print("Testing evolved algorithm against a random player")
   return(gameWithRandom)
   
