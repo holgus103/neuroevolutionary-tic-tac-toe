@@ -1,13 +1,14 @@
 
-winningSeries <- 3
-boardSize <- 3
-
 initBoard <- function(){
   return(matrix(0, ncol = boardSize, nrow = boardSize))
 }
 
 checkForVictory <- function(board){
+  if(dim(board)[1] != 3){
+    print(dim(board))
+  }
   boardsize <- dim(board)[1]
+  
   checkSubMatrix <- function(board){
     secondDiagonal <- function(m){
       return(diag(apply(m, 2, rev)))

@@ -1,6 +1,4 @@
-games <- 100
-epochs <- 5
-hiddenNeurons <- 10
+
 
 generateIndividual <- function(){
   weightsCount <- 3 * boardSize * boardSize * hiddenNeurons
@@ -40,7 +38,7 @@ calculate <- function(board, network){
     })
   )
   hLayerInput = input %*% network[1:(2 * size * size),]
-  return(network[(2 * size * size + 1):(3 * size * size),1] * t(hLayerInput))
+  return(network[(2 * size * size + 1):(3 * size * size),] %*% t(hLayerInput))
 }
 
 chooseBestMove <-function(board, network, sideOnTheMove){
@@ -73,27 +71,19 @@ startAlgorithm <- function(){
   victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
   winnerA <- which.max(victoriesCountA)
   winnerB <- which.max(victoriesCountB)
-  print(winnerA)
   competitionWinner <- populationA[winnerA]
   if(victoriesCountB[winnerB] > victoriesCountA[winnerA]){
     competitionWinner <- populationB[winnerB]
   }
   competitionWinner <- competitionWinner[[1]]
-  print(competitionWinner)
-  gameWithRandom <- sapply(1:games, function(x){game_AIvsRandom(competitionWinner)})
+  gameWithRandom <- sapply(1:testGames, function(x){game_AIvsRandom(competitionWinner)})
   print("Testing evolved algorithm against a random player")
-  return(gameWithRandom)
-  
-}
-
-GenerateResultsTable <- function(results){
-  winsCount = length(results[results=="1"])
-  drawsCount = length(results[results=="0"])
-  losesCount = length(results[results=="-1"])
-  totalGamesCount <- winsCount + losesCount + drawsCount
-  result <- as.matrix(c(winsCount, drawsCount, losesCount, totalGamesCount))
-  rownames(result) <- c("Wins", "Draws", "Loses", "Total")
-  return(t(result))
+  print(gameWithRandom)
+  print("Results")
+  wins = length(gameWithRandom[gameWithRandom > 0])
+  res = as.matrix(c(wins, length(gameWithRandom) - wins, length(gameWithRandom)))
+  rownames(res) <-c("Wins", "Draws or Loses", "Total")
+  print(res)
 }
 
 

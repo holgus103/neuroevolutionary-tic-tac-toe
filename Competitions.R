@@ -27,8 +27,7 @@ game_AIvsRandom <- function(network){
   }
   
   if(gameResult == aiPlayer) return(1)
-  if(gameResult == 0) return(0)
-  else return(2)
+  else return(0)
 }
 
 game_AIvsAI <- function(population1, population2){
