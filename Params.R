@@ -1,5 +1,5 @@
-testGames <- 100
-epochs <- 5
+testGames <- 1000
+epochs <- 500
 hiddenNeurons <- 10
 populationSize <- 50
 mutationProbabilty <- 0.5
