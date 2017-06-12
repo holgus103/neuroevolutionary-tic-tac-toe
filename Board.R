@@ -4,9 +4,6 @@ initBoard <- function(){
 }
 
 checkForVictory <- function(board){
-  if(dim(board)[1] != 3){
-    print(dim(board))
-  }
   boardsize <- dim(board)[1]
   
   checkSubMatrix <- function(board){

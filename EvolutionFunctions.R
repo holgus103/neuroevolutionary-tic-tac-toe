@@ -16,10 +16,11 @@ competitionBetweenPopulations <- function(populationA, populationB)
 
 evolveNextGeneration <-function(population, victoriesCount){
   newGeneration <- list()
-  newGeneration[[1]] <- population[[which.max(victoriesCount)]]
+  #print(victoriesCount[which.max(victoriesCount)])
+  #newGeneration[[1]] <- population[[which.max(victoriesCount)]]
   
   probability <- sapply(victoriesCount, countPropability, sum(victoriesCount))
-  for(i in 2:populationSize){
+  for(i in 1:populationSize){
     drawn <- sample(population, 2, FALSE, probability)
     newGeneration[[i]] <- mutation(crossover(drawn[[1]], drawn[[2]]))
   }

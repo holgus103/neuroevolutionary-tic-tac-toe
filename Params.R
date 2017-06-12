@@ -1,7 +1,7 @@
 testGames <- 1000
-epochs <- 500
+epochs <- 200
 hiddenNeurons <- 10
-populationSize <- 50
+populationSize <- 20
 mutationProbabilty <- 0.5
 gamesForIndividual <- 10
 winningSeries <- 3

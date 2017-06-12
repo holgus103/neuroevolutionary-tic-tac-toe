@@ -56,17 +56,26 @@ makeMove <- function(board, network, sideOnTheMove){
   return(board)
 }
 
-startAlgorithm <- function(){
+startAlgorithm <- function(iterations){
   populationA <- getPopulation()
   populationB <- getPopulation()
+  print(epochs)
+  print(populationSize)
   for(i in 1:epochs){
     victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
     victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
     populationA <- evolveNextGeneration(populationA, victoriesCountA)
     populationB <- evolveNextGeneration(populationB, victoriesCountB)
     print(paste("Iteration", i, "completed"))
+    if(length(which(iterations == i)) > 0){
+      evaluate(populationA, populationB, victoriesCountA, victoriesCountB)
+    }
   }
   print("Finished")
+  return(res)
+}
+
+evaluate <- function(populationA, populationB, victoriesCountA, victoriesCountB){
   victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
   victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
   winnerA <- which.max(victoriesCountA)
@@ -77,13 +86,13 @@ startAlgorithm <- function(){
   }
   competitionWinner <- competitionWinner[[1]]
   gameWithRandom <- sapply(1:testGames, function(x){game_AIvsRandom(competitionWinner)})
-  print("Testing evolved algorithm against a random player")
-  print(gameWithRandom)
-  print("Results")
   wins = length(gameWithRandom[gameWithRandom > 0])
-  res = as.matrix(c(wins, length(gameWithRandom) - wins, length(gameWithRandom)))
-  rownames(res) <-c("Wins", "Draws or Loses", "Total")
+  loses = length(gameWithRandom[gameWithRandom < 0])
+  res = as.matrix(c(wins, length(gameWithRandom) - wins - loses, loses, length(gameWithRandom)))
+  rownames(res) <-c("Wins", "Draws","Loses", "Total")
+  print(paste("population", populationSize, "neurons", hiddenNeurons, "mutation", mutationProbabilty))
   print(res)
+  return(0)
 }
 
 
