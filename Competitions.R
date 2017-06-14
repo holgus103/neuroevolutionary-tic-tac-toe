@@ -25,8 +25,12 @@ game_AIvsRandom <- function(network){
     gameResult <- checkForVictory(board)
     sideOnTheMove <- sideOnTheMove * -1
   }
-  
-  return(gameResult)
+  if(aiPlayer == gameResult)
+    return(1)
+  else if(gameResult == 0)
+    return(0)
+  else
+    return(-1)
 }
 
 game_AIvsAI <- function(population1, population2){
@@ -68,7 +72,6 @@ game_AIvsAI_revange <- function(population1, population2){
     gameResult <- checkForVictory(board)
     sideOnTheMove <- sideOnTheMove * -1
   }
-  
   side <- -1
   board <- initBoard()
   revangeResult <- 0

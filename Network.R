@@ -59,9 +59,8 @@ makeMove <- function(board, network, sideOnTheMove){
 startAlgorithm <- function(iterations){
   populationA <- getPopulation()
   populationB <- getPopulation()
-  print(epochs)
-  print(populationSize)
-  for(i in 1:epochs){
+  it <- iterations[which.max(iterations)]
+  for(i in 1:it){
     victoriesCountA <- competitionBetweenPopulations(populationA, populationB)
     victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
     populationA <- evolveNextGeneration(populationA, victoriesCountA)
@@ -72,7 +71,6 @@ startAlgorithm <- function(iterations){
     }
   }
   print("Finished")
-  return(res)
 }
 
 evaluate <- function(populationA, populationB, victoriesCountA, victoriesCountB){
