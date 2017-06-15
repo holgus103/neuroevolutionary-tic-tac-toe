@@ -1,21 +1,20 @@
 
   sink("res", append=TRUE)
   testGames <- 1000
-  epochs <- 200
-  iterations = c(50,100,150,200)
-  winningSeries <- 4
-  boardSize <- 5
+  iterations = seq(10, 1000, 10)
+  winningSeries <- 3
+  boardSize <- 3
   hiddenNeurons <- 15
   populationSize <- 50
   mutationProbabilty <- 0.05
   gamesForIndividual <- 10
-  #startAlgorithm(iterations)
+  startAlgorithm(iterations)
   mutationProbabilty <- 0.2
-  #startAlgorithm(iterations)
+  startAlgorithm(iterations)
   mutationProbabilty <- 0.5
-  #startAlgorithm(iterations)
+  startAlgorithm(iterations)
   
-  mutationProbabilty <- 0.2
+  mutationProbabilty <- 0.
   hiddenNeurons <- 10
   startAlgorithm(iterations)
   hiddenNeurons <- 20

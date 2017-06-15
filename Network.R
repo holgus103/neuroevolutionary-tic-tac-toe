@@ -67,8 +67,8 @@ startAlgorithm <- function(iterations){
     victoriesCountB <- competitionBetweenPopulations(populationB, populationA)
     populationA <- evolveNextGeneration(populationA, victoriesCountA)
     populationB <- evolveNextGeneration(populationB, victoriesCountB)
-    print(paste("Iteration", i, "completed"))
     if(length(which(iterations == i)) > 0){
+      print(paste("Iteration", i, "completed"))
       evaluate(populationA, populationB, victoriesCountA, victoriesCountB)
     }
   }

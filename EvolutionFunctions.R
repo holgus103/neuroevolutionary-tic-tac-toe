@@ -11,20 +11,24 @@ competitionBetweenPopulations <- function(populationA, populationB)
   startGame <- function(selectedIndividual, opponents){
     sum(sapply(opponents, function(x)game_AIvsAI_revange(selectedIndividual, x)))
   }
+  popA <<- populationA
+  popB <<- populationB
   return(parSapply(cl, populationA, function(i) startGame(i, sample(populationB, gamesForIndividual))))
 }
 
 evolveNextGeneration <-function(population, victoriesCount){
   newGeneration <- list()
   #print(victoriesCount[which.max(victoriesCount)])
-  #newGeneration[[1]] <- population[[which.max(victoriesCount)]]
+  newGeneration[[1]] <- population[[which.max(victoriesCount)]]
   
-  probability <- sapply(victoriesCount, countPropability, sum(victoriesCount))
-  for(i in 1:populationSize){
+  generateNewIndividual <- function(probability, population){
     drawn <- sample(population, 2, FALSE, probability)
-    newGeneration[[i]] <- mutation(crossover(drawn[[1]], drawn[[2]]))
-  }
-  return(newGeneration)
+    return(mutation(crossover(drawn[[1]], drawn[[2]])))
+  }v
+  probability <- sapply(victoriesCount, countPropability, sum(victoriesCount))
+  probs <<- probability
+  victories <<- victoriesCount
+  return(parLapply(cl, 1:populationSize, function(x){generateNewIndividual(probability, population)}))
 }
 
 countPropability <- function(x, sumOfElements){
