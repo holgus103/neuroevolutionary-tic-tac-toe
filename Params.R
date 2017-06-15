@@ -16,6 +16,7 @@ library(parallel)
 library(compiler)
 cl <- makeCluster(5, type = "PSOCK")
 clusterEvalQ(cl, library(parallel))
+
 clusterExport(cl, c("gamesForIndividual",
                     "game_AIvsAI_revange", 
                     "initBoard", 
@@ -34,3 +35,4 @@ clusterExport(cl, c("gamesForIndividual",
                     "crossover",
                     "makeSumsEqual1"
                     ))
+

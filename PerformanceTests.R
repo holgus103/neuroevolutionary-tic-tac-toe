@@ -15,5 +15,3 @@ for(i in 1:10){
 #print(res)
 m = sapply(res,unlist)
 apply(m, 1, mean)
-
-
