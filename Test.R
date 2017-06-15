@@ -8,7 +8,7 @@
   populationSize <- 50
   mutationProbabilty <- 0.05
   gamesForIndividual <- 10
-  startAlgorithm(iterations)
+  #startAlgorithm(iterations)
   mutationProbabilty <- 0.2
   startAlgorithm(iterations)
   mutationProbabilty <- 0.5

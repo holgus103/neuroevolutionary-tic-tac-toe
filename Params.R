@@ -8,7 +8,6 @@ boardSize <- 3
 hiddenNeurons <- 15
 populationSize <- 50
 mutationProbabilty <- 0.05
-gamesForIndividual <- 25
 victories <- 0
 probs <- 0
 dims = NULL
