@@ -24,7 +24,7 @@ evolveNextGeneration <-function(population, victoriesCount){
     return(mutation(crossover(drawn[[1]], drawn[[2]])))
   }
   probability <- sapply(victoriesCount, countPropability, sum(victoriesCount))
-  probability[which(is.na(probs))] = 0
+  probability[which(is.na(probability))] = 0
   probs <<- probability
   victories <<- victoriesCount
   return(parLapply(cl, 1:populationSize, function(x){generateNewIndividual(probability, population)}))
