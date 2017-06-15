@@ -11,7 +11,7 @@ competitionBetweenPopulations <- function(populationA, populationB)
   startGame <- function(selectedIndividual, opponents){
     sum(sapply(opponents, function(x)game_AIvsAI_revange(selectedIndividual, x)))
   }
-  return(sapply(populationA, function(i) startGame(i, sample(populationB, gamesForIndividual))))
+  return(parSapply(cl, populationA, function(i) startGame(i, sample(populationB, gamesForIndividual))))
 }
 
 evolveNextGeneration <-function(population, victoriesCount){

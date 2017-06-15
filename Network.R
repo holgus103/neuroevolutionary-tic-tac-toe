@@ -41,11 +41,13 @@ calculate <- function(board, network){
   return(network[(2 * size * size + 1):(3 * size * size),] %*% t(hLayerInput))
 }
 
+calculate_c <- cmpfun(calculate)
+
 chooseBestMove <-function(board, network, sideOnTheMove){
   if(sideOnTheMove == -1){
     board <- sapply(board, function(x) -x)
   }
-  result <- calculate(board, network)
+  result <- calculate_c(board, network)
   result[board != 0] = -Inf
   return(which.max(result))
 }
@@ -83,7 +85,7 @@ evaluate <- function(populationA, populationB, victoriesCountA, victoriesCountB)
     competitionWinner <- populationB[winnerB]
   }
   competitionWinner <- competitionWinner[[1]]
-  gameWithRandom <- sapply(1:testGames, function(x){game_AIvsRandom(competitionWinner)})
+  gameWithRandom <- parSapply(cl, 1:testGames, function(x){game_AIvsRandom(competitionWinner)})
   wins = length(gameWithRandom[gameWithRandom > 0])
   loses = length(gameWithRandom[gameWithRandom < 0])
   res = as.matrix(c(wins, length(gameWithRandom) - wins - loses, loses, length(gameWithRandom)))
