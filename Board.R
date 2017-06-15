@@ -20,10 +20,10 @@ checkForVictory <- function(board){
       # check other diagonal
       sum(secondDiagonal(board))
     )
-    if(max(sequences) == winningSeries){
+    if(max(sequences) >= winningSeries){
       return(1)
     }
-    else if(min(sequences) == (-winningSeries)){
+    else if(min(sequences) <= (-winningSeries)){
       return(-1)
     }
     else{
@@ -66,6 +66,9 @@ checkForVictory <- function(board){
   rightres = apply(rightcorners, 1, rightevaluator)
   bottomcorners =   expand.grid(c((boardsize - winningSeries + 2): boardsize), c(1:(boardsize - winningSeries + 1)))
   bottomres = apply(bottomcorners, 1, bottomevaluator)
-  return(sum(res, rightres, bottomres))
+  sumValue <- sum(res, rightres, bottomres)
+  if(sumValue > 0) {return(1)}
+  if(sumValue == 0) {return(0)}
+  else {return(-1)}
 }
 

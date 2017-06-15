@@ -1,3 +1,4 @@
+#For boardSize==3 and winningSeries==3
 algorithmIterations <- 100
 testGamesCount <- 1000
 hiddenNeuronsCount <- 15
